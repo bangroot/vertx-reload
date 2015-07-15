@@ -1,0 +1,43 @@
+buildscript {
+	repositories {
+		jcenter()
+	}
+	dependencies {
+		classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.0'
+    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.0'
+    classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.0.1"
+
+	}
+}
+plugins {
+	id 'java'
+	id 'com.github.johnrengelman.shadow' version '1.2.0'
+	id 'idea'
+}
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+	jcenter()
+}
+
+dependencies {
+	compile "org.springframework:springloaded:${springloadedVersion}"
+}
+
+shadowJar {
+	classifier = 'fat'
+	manifest {
+		attributes 'Premain-Class': 'org.springsource.loaded.agent.SpringLoadedAgent'
+		attributes 'Agent-Class': 'org.springsource.loaded.agent.SpringLoadedAgent'
+		attributes 'Can-Redefine-Classes': 'true'
+	}
+	mergeServiceFiles {
+		include 'META-INF/services/org.springsource.reloading.agent.Plugins'
+	}
+	dependencies {
+	}
+}
+
+apply from: 'gradle/bintray.gradle'
+
