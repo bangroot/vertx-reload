@@ -13,16 +13,27 @@ plugins {
 	id 'java'
 	id 'com.github.johnrengelman.shadow' version '1.2.0'
 	id 'idea'
+	id 'maven'
+	id 'maven-publish'
 }
 
 repositories {
-	mavenCentral()
 	mavenLocal()
+	mavenCentral()
 	jcenter()
+	maven {
+		url = 'http://repo.spring.io/libs-snapshot-local'
+	}
 }
 
 dependencies {
 	compile "org.springframework:springloaded:${springloadedVersion}"
+  compile "io.vertx:vertx-core:3.0.0"
+
+}
+
+artifacts {
+	archives shadowJar
 }
 
 shadowJar {
@@ -36,7 +47,17 @@ shadowJar {
 		include 'META-INF/services/org.springsource.reloading.agent.Plugins'
 	}
 	dependencies {
+		include(dependency('org.springframework:springloaded'))
 	}
+}
+
+publishing {
+  publications {
+    shadow(MavenPublication) {
+      from components.java
+      artifact shadowJar
+    }
+  }
 }
 
 apply from: 'gradle/bintray.gradle'
