@@ -27,9 +27,9 @@ repositories {
 }
 
 dependencies {
-	compile "org.springframework:springloaded:${springloadedVersion}"
+	compile "org.hotswap.agent:hotswap-agent:0.2"
   compile "io.vertx:vertx-core:3.0.0"
-
+	compile 'asm:asm:3.3.1'
 }
 
 artifacts {
@@ -39,15 +39,13 @@ artifacts {
 shadowJar {
 	classifier = 'fat'
 	manifest {
-		attributes 'Premain-Class': 'org.springsource.loaded.agent.SpringLoadedAgent'
-		attributes 'Agent-Class': 'org.springsource.loaded.agent.SpringLoadedAgent'
+		attributes 'Premain-Class': 'com.github.bangroot.vertx.GroovyResetHotswapAgent'
 		attributes 'Can-Redefine-Classes': 'true'
-	}
-	mergeServiceFiles {
-		include 'META-INF/services/org.springsource.reloading.agent.Plugins'
+		attributes 'Can-Retransform-Classes': 'true'
 	}
 	dependencies {
-		include(dependency('org.springframework:springloaded'))
+		include(dependency('org.hotswap.agent:hotswap-agent'))
+		include(dependency('asm:asm'))
 	}
 }
 
