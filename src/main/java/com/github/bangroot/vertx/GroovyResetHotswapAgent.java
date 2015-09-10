@@ -22,23 +22,22 @@ public class GroovyResetHotswapAgent {
       return;
     }
     initialized = true;
-		HotswapAgent.premain(options, inst);
+		//HotswapAgent.premain(options, inst);
     inst.addTransformer(new ClassFileTransformer() {
       public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
         if (classBeingRedefined != null) {
           try {
-						System.out.println("Clearing call site array for: " + className);
             Field callSiteArrayField = classBeingRedefined.getDeclaredField("$callSiteArray");
             callSiteArrayField.setAccessible(true);
             callSiteArrayField.set(null, null);
           } catch (Throwable ignored) {
+						ignored.printStackTrace();
           }
         }
         return removeTimestampField(classfileBuffer);
       }
 
     });
-		log = AgentLogger.getLogger(GroovyResetHotswapAgent.class);
   }
 
   private static boolean hasTimestampField(byte[] buffer) {

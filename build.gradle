@@ -27,7 +27,7 @@ repositories {
 }
 
 dependencies {
-	compile "org.hotswap.agent:hotswap-agent:0.2"
+	compile "org.hotswap.agent:hotswap-agent:0.3"
   compile "io.vertx:vertx-core:3.0.0"
 	compile 'asm:asm:3.3.1'
 }
@@ -39,7 +39,7 @@ artifacts {
 shadowJar {
 	classifier = 'fat'
 	manifest {
-		attributes 'Premain-Class': 'com.github.bangroot.vertx.GroovyResetHotswapAgent'
+		attributes 'Premain-Class': 'org.hotswap.agent.HotswapAgent'
 		attributes 'Can-Redefine-Classes': 'true'
 		attributes 'Can-Retransform-Classes': 'true'
 	}
