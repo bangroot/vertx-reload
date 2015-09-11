@@ -112,6 +112,7 @@ public class VertxHotswapPlugin {
 
 	@OnClassLoadEvent(classNameRegexp = ".*", events = {REDEFINE})
 		public byte[] classReloaded(Class classBeingRedefined, byte[] classfileBuffer) throws NoSuchFieldException, IllegalAccessException, ClassNotFoundException, NoSuchMethodException, InstantiationException, InvocationTargetException {
+				log.info("Class size before: " + classfileBuffer.length);
         if (classBeingRedefined != null) {
           try {
             Field callSiteArrayField = classBeingRedefined.getDeclaredField("$callSiteArray");
@@ -120,8 +121,14 @@ public class VertxHotswapPlugin {
           } catch (Throwable ignored) {
 						ignored.printStackTrace();
           }
-        }
-        return removeTimestampField(classfileBuffer);
+					byte[] transformed = removeTimestampField(classfileBuffer);
+					if (null == transformed) { transformed = classfileBuffer; }
+					log.info("Class size after: " + transformed.length);
+					return transformed;
+        } else {
+					log.info("Class size after: " + classfileBuffer.length);
+					return classfileBuffer;
+				}
 		}
 
 	@OnClassFileEvent(classNameRegexp = ".*", events = {CREATE, MODIFY})
