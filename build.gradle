@@ -1,4 +1,4 @@
-group 'com.github.bangroot.vertx'
+group = 'com.github.bangroot.vertx'
 
 buildscript {
 	repositories {
