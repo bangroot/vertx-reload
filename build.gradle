@@ -27,7 +27,7 @@ repositories {
 }
 
 dependencies {
-	compile "org.hotswap.agent:hotswap-agent:0.2"
+	compile "org.hotswap.agent:hotswap-agent:0.3"
   compile "io.vertx:vertx-core:3.0.0"
 	compile 'asm:asm:3.3.1'
 }
