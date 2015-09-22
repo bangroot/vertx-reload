@@ -21,9 +21,9 @@ bintray {
     repo = 'maven'
     name = project.name
     desc = 'Utility Classes for Vert.x Development'
-    websiteUrl = 'https://github.com/bangroot/vertx-utils'
-    issueTrackerUrl = 'https://github.com/bangroot/vertx-utils/issues'
-    vcsUrl = 'https://github.com/bangroot/vertx-utils.git'
+    websiteUrl = 'https://github.com/bangroot/vertx-reload'
+    issueTrackerUrl = 'https://github.com/bangroot/vertx-reload/issues'
+    vcsUrl = 'https://github.com/bangroot/vertx-reload.git'
     licenses = ['Apache-2.0']
     labels = ['vertx', 'groovy']
     attributes = ['plat': ['linux', 'osx']]
