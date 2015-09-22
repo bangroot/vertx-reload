@@ -129,11 +129,21 @@ public class VertxHotswapPlugin {
 			stopCommand.getClassName();
 		}
 		if (null == runCommand) {
-			runCommand = new ReflectionCommand(reloadableStarter, "restart", new Object[0]);
+			runCommand = new ReflectionCommand(this, "restartInThread", new Object[0]);
 			runCommand.getClassName();
 		}
 		scheduler.scheduleCommand(runCommand, 250, Scheduler.DuplicateSheduleBehaviour.SKIP);
 		scheduler.scheduleCommand(stopCommand, 100, Scheduler.DuplicateSheduleBehaviour.SKIP);
+	}
+
+	public void restartInThread() {
+		new Thread(() -> {
+			try {
+				reloadableStarter.getClass().getMethod("restart", new Class[0]).invoke(reloadableStarter, new Object[0]);
+			} catch (Exception ex) {
+				log.error("Error restarting Vertx.", ex);
+			}
+		}).start();
 	}
 
 	@OnClassFileEvent(classNameRegexp = ".*", events = {CREATE, MODIFY})
