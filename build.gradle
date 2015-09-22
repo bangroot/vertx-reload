@@ -13,30 +13,63 @@ plugins {
 	id 'java'
 	id 'com.github.johnrengelman.shadow' version '1.2.0'
 	id 'idea'
+	id 'maven'
+	id 'maven-publish'
 }
 
 repositories {
-	mavenCentral()
 	mavenLocal()
+	mavenCentral()
 	jcenter()
+	maven {
+		url = 'http://repo.spring.io/libs-snapshot-local'
+	}
 }
 
+group = 'com.github.bangroot.vertx'
+
 dependencies {
-	compile "org.springframework:springloaded:${springloadedVersion}"
+	compile "org.hotswap.agent:hotswap-agent:0.3"
+  compile "io.vertx:vertx-core:3.0.0"
+	compile 'asm:asm:3.3.1'
+}
+
+configurations {
+	published
+}
+
+task sourceJar(type: Jar) {
+  from sourceSets.main.allSource
+  classifier = 'sources'
+}
+
+artifacts {
+//	archives shadowJar
+	published shadowJar
+	published sourceJar
 }
 
 shadowJar {
 	classifier = 'fat'
 	manifest {
-		attributes 'Premain-Class': 'org.springsource.loaded.agent.SpringLoadedAgent'
-		attributes 'Agent-Class': 'org.springsource.loaded.agent.SpringLoadedAgent'
+		attributes 'Premain-Class': 'org.hotswap.agent.HotswapAgent'
 		attributes 'Can-Redefine-Classes': 'true'
-	}
-	mergeServiceFiles {
-		include 'META-INF/services/org.springsource.reloading.agent.Plugins'
+		attributes 'Can-Retransform-Classes': 'true'
 	}
 	dependencies {
+		include(dependency('org.hotswap.agent:hotswap-agent'))
+		include(dependency('asm:asm'))
 	}
+}
+
+publishing {
+  publications {
+    shadow(MavenPublication) {
+      from components.java
+			artifact sourceJar
+      artifact shadowJar
+    }
+  }
 }
 
 apply from: 'gradle/bintray.gradle'
