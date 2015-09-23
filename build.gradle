@@ -64,7 +64,7 @@ shadowJar {
 
 publishing {
   publications {
-    shadow(MavenPublication) {
+    published(MavenPublication) {
       from components.java
 			artifact sourceJar
       artifact shadowJar
@@ -73,4 +73,4 @@ publishing {
 }
 
 apply from: 'gradle/bintray.gradle'
-
+apply from: 'gradle/artifactory.gradle'

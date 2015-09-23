@@ -1,0 +1,18 @@
+apply plugin: "com.jfrog.artifactory"
+
+
+artifactory {
+  contextUrl = "https://oss.jfrog.org"
+  publish {
+    repository {
+      repoKey = 'oss-snapshot-local'
+      username = bintray_user
+      password = bintray_key
+    }
+  }
+}
+
+artifactoryPublish {
+  publications('published')
+}
+
