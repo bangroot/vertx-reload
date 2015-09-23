@@ -19,7 +19,7 @@ bintray {
   publish = false
   pkg {
     repo = 'maven'
-    name = project.name
+    name = 'vertx-utils'
     desc = 'AutoReload Agent for Vert.x Development'
     websiteUrl = 'https://github.com/bangroot/vertx-reload'
     issueTrackerUrl = 'https://github.com/bangroot/vertx-reload/issues'
