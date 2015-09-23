@@ -1,4 +1,7 @@
 vertx-reload adds the auto hotswap/reload capability to vertx as an agent. It builds on the awesome work done by the teams on [HotswapAgent](http://hotswapagent.org) and [DCEVM](https://dcevm.github.io).
+Also, steals liberally to merge in the work done on
+[ResetAgent.java](https://github.com/joewalnes/idea-community/blob/master/plugins/groovy/hotswap/agentSrc/org/groovy/debug/hotswap/ResetAgent.java)
+to allow for "resetting" groovy classes within the Groovy runtime.
 
 # Installation/Usage
 

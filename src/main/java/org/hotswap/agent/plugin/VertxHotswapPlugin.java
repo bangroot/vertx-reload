@@ -43,6 +43,23 @@ import static org.hotswap.agent.annotation.LoadEvent.DEFINE;
 import static org.hotswap.agent.annotation.LoadEvent.REDEFINE;
 import static java.util.concurrent.TimeUnit.*;
 
+/**
+ * Plugin which adds a few features to HotswapAgent
+ *
+ * Vertx Reloading: when a class is redefined, the Vertx Starter is enhanced to support
+ * shutdown/restart of a running Vertx instance using the same command line args that were passed in
+ * originally.
+ *
+ * Groovy Class Reset: borrowed from <a
+ * href="https://github.com/joewalnes/idea-community/blob/master/plugins/groovy/hotswap/agentSrc/org/groovy/debug/hotswap/ResetAgent.java">ResetAgent.java</a>.
+ * Resets groovy classes for internal CallSite and timestamps.
+ *
+ * Fixes issue with HotswapAgent's own hotswapper which only works for MODIFY events. Gradle and
+ * others with often delete classes and recreate the class file under the covers.
+ *
+ *
+ */
+
 @Plugin(name = "VertxHotswapPlugin", description = "Hotswap agent plugin that adds a restart of the Vert.x environment on class redefinition.",
 		testedVersions = "Vert.x 3.0",
 		expectedVersions = "Vert.x 3.0+")
